@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KnowTok</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/card.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-content">
+            <div class="nav-left">
+                <div class="logo">KnowTok</div>
+                <div class="nav-links">
+                    <a href="#" class="active" data-i18n="discover" style="display: none;">Discover</a>
+                    <a href="#" data-i18n="collections" style="display: none;">Collections</a>
+                    <a href="#" data-i18n="topics" style="display: none;">Topics</a>
+                </div>
+            </div>
+            <div class="nav-right">
+                <select id="languageSelect" class="language-select">
+                    <option value="en">🌐 English</option>
+                    <option value="zh">🌐 中文</option>
+                </select>
+                <div class="auth-buttons">
+                    <button class="btn-login" data-i18n="login">登录</button>
+                    <button class="btn-register" data-i18n="register">注册</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 简化主内容区结构 -->
+    <main class="main-content">
+        <div class="articles-grid" id="articles-container">
+            <!-- 内容将由JavaScript动态填充 -->
+        </div>
+    </main>
+
+    <!-- 简化的登录模态框 -->
+    <div id="loginContainer" style="display: none;" class="modal-container">
+        <div class="modal">
+            <span class="close" onclick="closeAllModals()">&times;</span>
+            <div class="modal-content">
+                <h2 data-i18n="loginTitle">登录</h2>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <input type="text" name="identifier" data-i18n-placeholder="email" placeholder="邮箱或手机号" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" data-i18n-placeholder="password" placeholder="密码" required>
+                    </div>
+                    <button type="submit" class="btn-primary" data-i18n="login">登录</button>
+                </form>
+                <p class="form-footer">
+                    <span data-i18n="noAccount">还没有账号？</span>
+                    <a href="#" onclick="showRegisterModal()" data-i18n="signUp">立即注册</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 简化的注册模态框 -->
+    <div id="registerContainer" style="display: none;" class="modal-container">
+        <div class="modal">
+            <span class="close" onclick="closeAllModals()">&times;</span>
+            <div class="modal-content">
+                <h2 data-i18n="registerTitle">Register Account</h2>
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <input type="text" name="username" data-i18n-placeholder="username" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" data-i18n-placeholder="email">
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" name="phone" data-i18n-placeholder="phone">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" data-i18n-placeholder="password" required>
+                    </div>
+                    <button type="submit" class="btn-primary" data-i18n="register">Register</button>
+                </form>
+                <p class="form-footer">
+                    <span data-i18n="hasAccount">Already have an account?</span>
+                    <a href="#" onclick="showLoginModal()" data-i18n="signIn">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改底部工具栏，显示收藏按钮 -->
+    <div class="bottom-toolbar">
+        <div class="toolbar-content">
+            <button class="toolbar-button refresh" onclick="loadArticles()">
+                <span class="icon">🔄</span>
+                <span data-i18n="refresh">Refresh</span>
+            </button>
+            <button class="toolbar-button" onclick="showLikes()">
+                <span class="icon">❤️</span>
+                <span data-i18n="favorites">Favorites</span>
+            </button>
+            <button class="toolbar-button" style="display: none;">
+                <span class="icon">🎯</span>
+                <span data-i18n="topics">Topics</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
+    <script>
+        // 确保语言选择器存在后再初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.languageManager) {
+                const savedLanguage = window.languageManager.getCurrentLanguage();
+                const select = document.getElementById('languageSelect');
+                if (select) {
+                    select.value = savedLanguage;
+                }
+            }
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</body>
+</html>
